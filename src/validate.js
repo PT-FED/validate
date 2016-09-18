@@ -106,17 +106,26 @@
 
     /**
      * 验证
-     * @param options 配置项 { value: 验证值, content: [{ name: "isEmpty", message: "错误信息(可选)" },{ name: "isEmail" }], callback: function(){}(可选)}
+     * @param options 配置项
+     *      { value: 验证值, content: { name: "isEmpty", message: "错误信息(可选)" }, callback: function(){}(可选)}
+     *      { value: 验证值, content: [{ name: "isEmpty", message: "错误信息(可选)" },{ name: "isEmail" }], callback: function(){}(可选)}
+     * @returns {result: 结果集(true:全部验证通过, false:存在验证不过的项), content:{name:验证未通过的策略类名, message: 错误信息}}
      */
-    var validate = function(options){
-        // 清空错误信息
+    var validate = function (options){
+        /* 清空错误信息 */
         defaults.errors = [];
 
-        // 初始化验证类
+        /* 初始化验证类 */
         var validatorInstance = new validator();
-        // 添加验证
-        validatorInstance.add(options.value, options.content);
-        // 开始验证
+
+        /* 添加验证 */
+        // 如果非Array,则表示传入单个验证策略;此处强制转化为数组便于统一处理
+        var content = [];
+        Object.prototype.toString.call(options.content) !== "[object Array]" ?
+            content.push(options.content) : content = content.concat(options.content);
+        validatorInstance.add(options.value, content);
+
+        /* 开始验证 */
         validatorInstance.start();
         // 结果{true: 全部验证通过, false: 存在验证不通过的选项}
         var result = {
@@ -124,10 +133,35 @@
             content: defaults.errors
         };
 
-        // 执行回调
+        /* 执行回调 */
         typeof options.callback === "function" ? options.callback(result) : defaults.callback(result);
-        // 返回结果集
+        /* 返回结果集 */
         return result;
+    };
+
+
+    /**
+     * 根据指定name获取对应错误信息
+     * @param name 验证类名称
+     * @returns {string} 错误信息
+     * 注意: 无错误信息时,返回""
+     */
+    validate.getErrorMsgByName = function(result, name){
+        var errorContent = result.content;
+        // 如果错误信息集为空,则直接返回结果
+        if(errorContent.length === 0) {
+            return "";
+        }
+
+        // 查找指定name的错误信息
+        var errprMsg = "";
+        errorContent.filter(function(obj, index, ary){
+            if(obj.name === name) {
+                errprMsg = obj.message;
+                return;
+            }
+        });
+        return errprMsg;
     };
 
     window.validate = validate;

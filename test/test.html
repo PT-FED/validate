@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <title>测试</title>
     <script src="../dist/validate.min.js"></script>
+    <!--<script src="../src/validate.js"></script>-->
 </head>
 <body>
     <script>
         // 测试一
         var test1 = validate({
-            value: "a",
-            content: [{
+            value: "",
+            content: {
                 name: "isEmpty"
-            }]
+            }
         });
         console.log(test1);
+
         // 测试二
         var test2 = validate({
             value: "",
@@ -26,8 +28,9 @@
             }]
         });
         console.log(test2);
+
         // 测试三
-        validate({
+        var test3 = validate({
             value: "",
             content: [{
                 name: "isEmpty"
@@ -39,6 +42,7 @@
                 console.log(errors);
             }
         });
+        console.log("isEmail的验证结果:" + validate.getErrorMsgByName(test3, "isEmail"));
     </script>
 </body>
 </html>
