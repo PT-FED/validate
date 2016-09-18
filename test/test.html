@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+    <script src="../dist/validate.min.js"></script>
+</head>
+<body>
+    <script>
+        // 测试一
+        var test1 = validate({
+            value: "a",
+            content: [{
+                name: "isEmpty"
+            }]
+        });
+        console.log(test1);
+        // 测试二
+        var test2 = validate({
+            value: "",
+            content: [{
+                name: "isEmpty"
+            },{
+                name: "isEmail",
+                message: "请您输入正确的邮箱地址"
+            }]
+        });
+        console.log(test2);
+        // 测试三
+        validate({
+            value: "",
+            content: [{
+                name: "isEmpty"
+            },{
+                name: "isEmail",
+                message: "请您输入正确的邮箱地址"
+            }],
+            callback: function(errors){
+                console.log(errors);
+            }
+        });
+    </script>
+</body>
+</html>

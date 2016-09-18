@@ -1,0 +1,22 @@
+{
+  "name": "validate",
+  "version": "1.0.0",
+  "description": "目前仅供PTFED组织内部使用",
+  "main": "validate.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/381510688/validate.git"
+  },
+  "author": "ligang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/381510688/validate/issues"
+  },
+  "homepage": "https://github.com/381510688/validate#readme",
+  "dependencies": {
+    "webpack": "^1.13.2"
+  }
+}
